@@ -199,6 +199,24 @@ if Version.match?(System.version(), ">= 1.13.0") do
       assert_formatter_output(input, expected, line_length: 20)
     end
 
+    test "don't break inline content" do
+      input = """
+      <div>
+        <div>
+          <p class="text-muted">
+            <small>
+              This is text with inline <b>bold</b>.
+
+              This is more text.
+            </small>
+          </p>
+        </div>
+      </div>
+      """
+
+      assert_formatter_doesnt_change(input, heex_line_length: 120)
+    end
+
     test "add indentation when there aren't any" do
       input = """
       <section>
